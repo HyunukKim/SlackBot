@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var slackBot = require('./core/hellobot');
-var dicebot = require('./core/dicebot');
+//var dicebot = require('./core/dicebot');
 
 
 var app = express();
@@ -18,7 +18,7 @@ app.get('/', function (req, res){
 app.post('/hello', slackBot);
 
 // dicebot
-app.post('/roll', dicebot);
+//app.post('/roll', dicebot);
 
 // error handler
 app.use(function (err, req, res, next) {
