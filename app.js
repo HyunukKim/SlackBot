@@ -1,6 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var slackBot = require('./core/hellobot');
+var dicebot = require('./core/dicebot');
+
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -13,6 +15,11 @@ app.get('/', function (req, res){
 	res.status(200).send('Hello world!');
 });
 
+app.post('/hello', slackBot);
+
+// dicebot
+app.post('/roll', dicebot);
+
 // error handler
 app.use(function (err, req, res, next) {
   console.error(err.stack);
@@ -23,4 +30,3 @@ app.listen(port, function () {
   console.log('Slack bot listening on port ' + port);
 });
 
-app.post('/hello', slackBot);
