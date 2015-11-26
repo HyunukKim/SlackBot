@@ -16,7 +16,7 @@ module.exports = function (req, res, next) {
     console.log('command : ' + command);
   } else {
     var botPayload = {
-      text : '```' + '* * * * * Command List * * * * *\n' + '$dice <number>d<sides> : ex)$dice 2d6 -> 6면 주사위를 2번 굴린다.\n' + '* * * 대소문자 구분 주의 * * * \n' + '```'
+      text : '```' + '* * * * * Command List * * * * *\n' + trigger +'dice <number>d<sides> : ex)' + trigger + 'dice 2d6 -> 6면 주사위를 2번 굴린다.\n' + '* * * 대소문자 구분 주의 * * * \n' + '```'
     };
     res.status(200).json(botPayload);
   }
