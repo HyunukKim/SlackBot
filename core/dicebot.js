@@ -7,7 +7,6 @@ module.exports = function (req, res, next) {
   var die = 6;
   var rolls = [];
   var total = 0;
-  var botPayload = {};
 
   if (req.body.text) {
     // parse roll type if specified
@@ -31,24 +30,25 @@ module.exports = function (req, res, next) {
   }
 
   // write response message and add to payload
-  botPayload.text = req.body.user_name + ' rolled ' + times + 'd' + die + ':\n' +
+  var result = req.body.user_name + ' rolled ' + times + 'd' + die + ':\n' +
                     rolls.join(' + ') + ' = *' + total + '*';
-  botPayload.username = 'Dicer';
-  botPayload.channel = req.body.channel_id;
-  botPayload.icon_emoji = ':game_die:';
+  return result;
+  // botPayload.username = 'Dicer';
+  // botPayload.channel = req.body.channel_id;
+  // botPayload.icon_emoji = ':game_die:';
 
   // send dice roll
-  send(botPayload, function (error, status, body) {
-    if (error) {
-      return next(error);
+  // send(botPayload, function (error, status, body) {
+  //   if (error) {
+  //     return next(error);
 
-    } else if (status !== 200) {
-      // inform user that our Incoming WebHook failed
-      return next(new Error('Incoming WebHook: ' + status + ' ' + body));
-    } else {
-      return res.status(200).end();
-    }
-  });
+  //   } else if (status !== 200) {
+  //     // inform user that our Incoming WebHook failed
+  //     return next(new Error('Incoming WebHook: ' + status + ' ' + body));
+  //   } else {
+  //     return res.status(200).end();
+  //   }
+  // });
 }
 
 
@@ -57,16 +57,16 @@ function roll (min, max) {
 }
 
 
-function send (payload, callback) {
-  var uri = 'https://hooks.slack.com/services/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';
-  request({
-    uri: uri,
-    method: 'POST',
-    body: JSON.stringify(payload)
-  }, function (error, response, body) {
-    if (error) {
-      return callback(error);
-    }
-    callback(null, response.statusCode, body);
-  });
-}
+// function send (payload, callback) {
+//   var uri = 'https://hooks.slack.com/services/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';
+//   request({
+//     uri: uri,
+//     method: 'POST',
+//     body: JSON.stringify(payload)
+//   }, function (error, response, body) {
+//     if (error) {
+//       return callback(error);
+//     }
+//     callback(null, response.statusCode, body);
+//   });
+// }

@@ -4,20 +4,21 @@ module.exports = function (req, res, next) {
   var trigger = req.body.trigger_word;
   var regx = new RegExp(trigger+'(.*)(\\s)(.*)');
   var matches = regx.exec(req.body.text);
+  var botPayload = {};
+
   console.log('matches : ' + matches);
   if (matches) {
     var command = matches[1]; // 명령어
     if (command === 'dice') {
       req.body.text = matches[3];
       console.log('body text : ' + req.body.text);
-      diceBot(req, res, next);
-      res.status(200).end();
+      botPayload.text = diceBot(req, res, next);
+      console.log('result : ' + botPayload.text);
     }
-    console.log('command : ' + command);
+    res.status(200).json(botPayload);
+    // console.log('command : ' + command);
   } else {
-    var botPayload = {
-      text : '```' + '* * * * * Command List * * * * *\n\n' + trigger +'dice <number>d<sides> : ex)' + trigger + 'dice 2d6 -> 6면 주사위를 2번 굴린다.\n' + '\n* 대소문자 구분 주의 * \n' + '```'
-    };
+    botPayload.text = '```' + '* * * * * Command List * * * * *\n\n' + trigger +'dice <number>d<sides> : ex)' + trigger + 'dice 2d6 -> 6면 주사위를 2번 굴린다.\n' + '\n* 대소문자 구분 주의 * \n' + '```';
     res.status(200).json(botPayload);
   }
 
